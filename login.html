@@ -25,23 +25,32 @@
     );
 
     async function onTelegramAuth(user) {
+      alert("Telegram Login erkannt: " + (user.first_name || "ohne Namen"));
       console.log("Telegram User:", user);
 
-      const { error } = await supabase.from("users").upsert({
+      const payload = {
         telegram_id: user.id,
         username: user.username || null,
         first_name: user.first_name || null,
         last_name: user.last_name || null,
         photo_url: user.photo_url || null
-      });
+      };
+
+      console.log("Payload an Supabase:", payload);
+
+      const { data, error } = await supabase
+        .from("users")
+        .upsert(payload)
+        .select();
 
       if (error) {
         console.error("Supabase Fehler:", error);
-        alert("Fehler beim Speichern");
+        alert("Supabase Fehler: " + error.message);
         return;
       }
 
-      alert("Login erfolgreich gespeichert!");
+      console.log("Supabase Erfolg:", data);
+      alert("Erfolgreich in Supabase gespeichert!");
     }
   </script>
 
