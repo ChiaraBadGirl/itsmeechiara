@@ -1,31 +1,50 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
 </head>
 
-<body style="margin:0;background:#000;color:#efbf83;height:100vh;display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif;">
+<body
+  style="margin:0;background:#000;color:#efbf83;height:100vh;display:flex;align-items:center;justify-content:center;font-family:Arial,sans-serif;">
 
   <div style="text-align:center;">
     <h1>Login with Telegram</h1>
-
-    <script async src="https://telegram.org/js/telegram-widget.js?22"
-      data-telegram-login="ItsMeeChiaraBot"
-      data-size="large"
-      data-userpic="false"
-      data-request-access="write"
-      data-onauth="onTelegramAuth(user)">
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-login="ItsMeeChiaraBot"
+      data-size="large" data-userpic="false" data-request-access="write" data-onauth="onTelegramAuth(user)">
+      </script>
   </div>
 
   <script>
-    function onTelegramAuth(user) {
-      alert("Login erfolgreich: " + user.first_name);
-      console.log(user);
+    const supabase = window.supabase.createClient(
+      "https://ayqatnajavivnwpglzgo.supabase.co",
+      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImF5cWF0bmFqYXZpdm53cGdsemdvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzc5NjA4OTEsImV4cCI6MjA5MzUzNjg5MX0.2fbFzeKbA3SfWS0yvDC-VgWEoc8Xe-26yBhJvEBwsC4"
+    );
+
+    async function onTelegramAuth(user) {
+      console.log("Telegram User:", user);
+
+      const { error } = await supabase.from("users").upsert({
+        telegram_id: user.id,
+        username: user.username || null,
+        first_name: user.first_name || null,
+        last_name: user.last_name || null,
+        photo_url: user.photo_url || null
+      });
+
+      if (error) {
+        console.error("Supabase Fehler:", error);
+        alert("Fehler beim Speichern");
+        return;
+      }
+
+      alert("Login erfolgreich gespeichert!");
     }
   </script>
 
 </body>
+
 </html>
