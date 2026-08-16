@@ -1,564 +1,188 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="de">
-
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ItsMeeChiara</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap"
-    rel="stylesheet">
-  <style>
-    :root {
-      --gold: #efbf83;
-      --gold-soft: #f6d2a5;
-      --line: rgba(239, 191, 131, .55);
-      --text: #f6e3cb;
-    }
-
-    * {
-      box-sizing: border-box
-    }
-
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      background: #000
-    }
-
-    body {
-      font-family: Inter, system-ui, sans-serif;
-      color: var(--text);
-      overflow-x: hidden;
-      background: #000;
-    }
-
-    .hero {
-      position: relative;
-      min-height: 100vh;
-      background:
-        linear-gradient(90deg, rgba(5, 4, 4, .18) 0%, rgba(5, 4, 4, .08) 34%, rgba(5, 4, 4, .03) 100%),
-        url("hero-background.png") 64% center / cover no-repeat;
-      isolation: isolate;
-    }
-
-    .topbar {
-      position: absolute;
-      top: 26px;
-      left: 0;
-      right: 0;
-      z-index: 4;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 0 46px;
-    }
-
-    .logo {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      text-decoration: none;
-      line-height: 0;
-    }
-
-    .logo img {
-      width: 128px;
-      height: auto;
-      display: block;
-      background: transparent;
-      mix-blend-mode: darken;
-      filter: drop-shadow(0 0 16px rgba(239, 191, 131, .18));
-    }
-
-    .nav {
-      display: flex;
-      align-items: center;
-      gap: 24px;
-      font-size: 13px;
-      font-weight: 500;
-    }
-
-    .nav a {
-      color: #f1d9bb;
-      text-decoration: none;
-      position: relative;
-      opacity: 0.75;
-      white-space: nowrap;
-      transition: all 0.3s ease;
-    }
-
-    .nav a:hover {
-      opacity: 1;
-      transform: translateY(-1px);
-    }
-
-    /* Aktiver Link bleibt wie er ist, nur minimal schöner */
-    .nav a.active::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: -6px;
-      height: 1px;
-      background: var(--gold);
-      box-shadow: 0 0 12px rgba(239, 191, 131, 0.4);
-    }
-
-    .nav a.active::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: -6px;
-      height: 1px;
-      background: var(--gold);
-      box-shadow: 0 0 12px rgba(239, 191, 131, .25);
-    }
-
-    .nav .icon {
-      font-size: 18px;
-      line-height: 1;
-      transform: translateY(-1px);
-    }
-
-    .overlay {
-      position: relative;
-      z-index: 2;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      padding: 120px 44px 56px;
-    }
-
-    .content {
-      width: min(46vw, 640px);
-      padding-left: 38px;
-      margin-left: 8px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-
-    .brand-title {
-      margin: 0;
-      line-height: 0;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-    }
-
-    .brand-title img {
-      width: min(100%, 760px);
-      max-width: 100%;
-      height: auto;
-      display: block;
-      margin: 0 auto;
-      filter: drop-shadow(0 0 24px rgba(239, 191, 131, .10));
-    }
-
-    .tagline {
-      margin-top: 20px;
-      margin-bottom: 28px;
-      font-family: "Cormorant Garamond", serif;
-      font-size: clamp(28px, 2.35vw, 42px);
-      color: #f4e0c8;
-      letter-spacing: .2px;
-      text-shadow: 0 0 18px rgba(0, 0, 0, .18);
-      width: 100%;
-      text-align: center;
-    }
-
-    .buttons {
-      display: flex;
-      gap: 22px;
-      flex-wrap: wrap;
-      margin-top: 0px;
-      margin-bottom: 32px;
-      justify-content: center;
-      width: 100%;
-    }
-
-    .btn {
-      padding: 14px 32px;
-      border-radius: 999px;
-      border: 1px solid rgba(239, 191, 131, 0.6);
-      color: #efbf83;
-      font-size: 14px;
-      font-weight: 500;
-      text-decoration: none;
-
-      background: rgba(15, 10, 7, 0.25);
-      backdrop-filter: blur(6px);
-
-      position: relative;
-      overflow: hidden;
-
-      box-shadow:
-        0 0 12px rgba(239, 191, 131, 0.15),
-        inset 0 0 8px rgba(239, 191, 131, 0.05);
-
-      transition: all 0.3s ease;
-    }
-
-    /* Hover = Premium Glow */
-    .btn:hover {
-      color: #ffdca8;
-      border-color: rgba(255, 220, 168, 0.9);
-
-      box-shadow:
-        0 0 25px rgba(239, 191, 131, 0.35),
-        0 0 60px rgba(239, 191, 131, 0.15);
-
-      transform: translateY(-2px) scale(1.03);
-    }
-
-    /* Soft moving glow inside */
-    .btn::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: -120%;
-      width: 120%;
-      height: 100%;
-
-      background: linear-gradient(120deg,
-          transparent,
-          rgba(255, 255, 255, 0.25),
-          transparent);
-
-      transition: 0.6s;
-    }
-
-    .btn:hover::before {
-      left: 120%;
-    }
-
-    @keyframes glowPulse {
-      0% {
-        box-shadow: 0 0 10px rgba(239, 191, 131, 0.15);
-      }
-
-      50% {
-        box-shadow:
-          0 0 40px rgba(239, 191, 131, 0.45),
-          0 0 80px rgba(239, 191, 131, 0.2);
-      }
-
-      100% {
-        box-shadow: 0 0 10px rgba(239, 191, 131, 0.15);
-      }
-    }
-
-    .btn {
-      animation: glowPulse 8s ease-in-out infinite;
-    }
-
-    .social {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 14px;
-      margin-top: 0px;
-      width: 100%;
-      padding-left: 0;
-    }
-
-    .social a {
-      display: inline-flex;
-      width: 30px;
-      height: 30px;
-      align-items: center;
-      justify-content: center;
-      color: rgba(255, 232, 205, 0.82);
-      text-decoration: none;
-      opacity: 0.82;
-      filter: drop-shadow(0 0 7px rgba(239, 191, 131, 0.18));
-      transition: opacity 0.3s ease, transform 0.3s ease, filter 0.3s ease;
-    }
-
-    .social svg {
-      width: 25px;
-      height: 25px;
-      display: block;
-    }
-
-    .social a:hover {
-      opacity: 1;
-      transform: translateY(-2px) scale(1.08);
-      filter: drop-shadow(0 0 9px rgba(239, 191, 131, 0.65));
-    }
-
-
-    .footer {
-      margin-top: 24px;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-    }
-
-    .footer-links {
-      display: flex;
-      justify-content: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-
-    .footer-links a {
-      color: #f1d9bb;
-      text-decoration: none;
-      font-size: 11px;
-      font-weight: 500;
-      opacity: 0.55;
-      white-space: nowrap;
-      transition: all 0.3s ease;
-    }
-
-    .footer-links a:hover {
-      opacity: 0.95;
-      transform: translateY(-1px);
-    }
-
-    @media (max-width: 1050px) {
-      .overlay {
-        align-items: flex-end;
-        padding: 120px 24px 36px
-      }
-
-      .content {
-        width: min(64vw, 620px);
-        padding-left: 10px;
-        margin-left: 0
-      }
-
-      .topbar {
-        padding: 0 20px
-      }
-
-      .nav {
-        gap: 14px;
-        font-size: 12px
-      }
-
-      .hero {
-        background-position: 68% center;
-      }
-
-      .brand-title img {
-        width: min(100%, 620px);
-      }
-    }
-
-    @media (max-width: 720px) {
-      .hero {
-        background-position: 72% center;
-        min-height: 100svh;
-      }
-
-      .topbar {
-        top: 14px;
-        padding: 0 16px;
-      }
-
-      .logo img {
-        width: 54px
-      }
-
-      .nav {
-        display: none
-      }
-
-      .overlay {
-        min-height: 100svh;
-        align-items: flex-end;
-        padding: 92px 16px 28px;
-      }
-
-      .content {
-        width: 100%;
-        padding-left: 0;
-        margin-left: 0;
-      }
-
-      .brand-title img {
-        width: min(100%, 520px);
-      }
-
-      .tagline {
-        font-size: 21px
-      }
-
-      .buttons {
-        gap: 14px;
-        margin-top: 28px
-      }
-
-      .btn {
-        width: 100%;
-        min-width: unset
-      }
-
-      .social {
-        margin-top: 18px
-      }
-
-      .footer {
-        margin-top: 18px;
-      }
-
-      .footer-links {
-        gap: 12px;
-      }
-
-      .footer-links a {
-        font-size: 10px;
-      }
-    }
-
-    #ageGate {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(5, 4, 4, 0.95);
-      backdrop-filter: blur(12px);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-    }
-
-    .age-box {
-      text-align: center;
-      color: var(--text);
-    }
-
-    .age-buttons {
-      display: flex;
-      gap: 20px;
-      justify-content: center;
-      margin-top: 20px;
-    }
-  </style>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#09070a" />
+  <meta name="color-scheme" content="dark" />
+
+  <title>ItsMeeChiara – My World. One Place.</title>
+  <meta name="description" content="Die offizielle ItsMeeChiara Plattform für Updates, persönliche Features, Merchandise und direkten App-Zugang." />
+  <meta name="robots" content="index,follow,max-image-preview:large" />
+  <link rel="canonical" href="https://itsmeechiara.com/" />
+
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="ItsMeeChiara" />
+  <meta property="og:title" content="ItsMeeChiara – My World. One Place." />
+  <meta property="og:description" content="Updates, persönliche Features, Merchandise und dein direkter Zugang zur ItsMeeChiara App." />
+  <meta property="og:url" content="https://itsmeechiara.com/" />
+  <meta property="og:image" content="https://itsmeechiara.com/assets/brand-wordmark.png" />
+
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="ItsMeeChiara – My World. One Place." />
+  <meta name="twitter:description" content="Updates, persönliche Features, Merchandise und dein direkter Zugang zur ItsMeeChiara App." />
+  <meta name="twitter:image" content="https://itsmeechiara.com/assets/brand-wordmark.png" />
+
+  <link rel="icon" href="assets/brand-icon.png" />
+  <link rel="stylesheet" href="styles.css" />
+  <script defer src="landing.js"></script>
 </head>
-
 <body>
+  <a class="skip-link" href="#main">Zum Inhalt</a>
 
-  <div id="ageGate">
-    <div class="age-box">
-      <h2>Are you 18 or older?</h2>
-      <p>You must be of legal age to enter this site.</p>
+  <header class="site-header" data-header>
+    <a class="brand-mark" href="#home" aria-label="ItsMeeChiara Startseite">
+      <img src="assets/brand-icon.png" alt="ItsMeeChiara" />
+    </a>
 
-      <div class="age-buttons">
-        <button onclick="enterSite()">Enter</button>
-        <button onclick="exitSite()">Exit</button>
-      </div>
+    <nav class="desktop-nav" aria-label="Hauptnavigation">
+      <a href="#home">Home</a>
+      <a href="#shop">Shop</a>
+      <a href="#about">About</a>
+      <a class="nav-app" data-track="app_cta_click" href="https://itsmeechiara-auth-production.up.railway.app/auth/telegram">Zur App</a>
+    </nav>
+
+    <button class="menu-button" type="button" aria-expanded="false" aria-controls="mobile-menu" data-menu-button>
+      <span></span><span></span>
+      <span class="sr-only">Menü öffnen</span>
+    </button>
+
+    <div class="mobile-menu" id="mobile-menu" data-mobile-menu hidden>
+      <a href="#home">Home</a>
+      <a href="#shop">Shop</a>
+      <a href="#about">About</a>
+      <a class="mobile-app-button" data-track="app_cta_click" href="https://itsmeechiara-auth-production.up.railway.app/auth/telegram">Zur App</a>
     </div>
-  </div>
+  </header>
 
-  <section class="hero">
-    <header class="topbar">
-      <a href="#" class="logo" aria-label="Logo">
-        <img src="brand-infinity-logo.png" alt="Infinity Logo">
-      </a>
-      <nav class="nav" aria-label="Navigation">
-        <a href="#" class="active">Home</a>
-        <a href="https://itsmeechiara-auth-production.up.railway.app/auth/telegram">My World</a>
-        <a href="https://itsmeechiara-auth-production.up.railway.app/auth/telegram">Private Access</a>
-        <a href="#" class="icon" aria-label="Menü">≡</a>
-      </nav>
-    </header>
-
-    <div class="overlay">
-      <div class="content">
-        <div class="brand-title">
-          <img src="brand-text-logo.png" alt="ItsMeeChiara">
-        </div>
-
-        <div class="tagline">Private. Exclusive. Different.</div>
-
-        <div class="buttons">
-          <a class="btn" href="https://itsmeechiara-auth-production.up.railway.app/auth/telegram">Enter my world</a>
-          <a class="btn" href="#">Chat with me</a>
-        </div>
-
-        <div class="social" aria-label="Social Media">
-
-          <!-- Instagram -->
-          <a href=" https://instagram.com/itsmee.chiara" target="_blank" aria-label="Instagram">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
-              <rect x="3.2" y="3.2" width="17.6" height="17.6" rx="5"></rect>
-              <circle cx="12" cy="12" r="4.2"></circle>
-              <circle cx="17.3" cy="6.8" r="1"></circle>
-            </svg>
-          </a>
-
-          <!-- Telegram -->
-          <a href="https://t.me/ChiaraBadGirl" target="_blank" aria-label="Telegram">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M21.4 4.6 18.2 19c-.24 1.02-.88 1.28-1.78.8l-4.92-3.63-2.37 2.28c-.26.26-.48.48-.98.48l.35-4.98 9.07-8.2c.4-.35-.08-.55-.6-.2l-11.2 7.05-4.82-1.5c-1.05-.33-1.06-1.05.22-1.55L19.53 3.5c.85-.32 1.6.2 1.87 1.1Z" />
-            </svg>
-          </a>
-
-          <!-- TikTok -->
-          <a href="https://tiktok.com/@itsmee_chiara" target="_blank" aria-label="TikTok">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M16.7 2c.3 2.4 1.7 3.9 4.1 4.1v3.5c-1.4.1-2.7-.3-4-1.1v6.7c0 4.5-4.9 7.3-8.8 5.1-4-2.3-3.7-8.1.5-10 1-.5 2.1-.6 3.2-.4v3.8c-.5-.2-1.1-.2-1.7 0-1.6.5-2.2 2.6-1.1 3.8 1.2 1.3 3.5.5 3.5-1.4V2h4.3z" />
-            </svg>
-          </a>
-
-          <!-- Facebook -->
-          <a href="https://www.facebook.com/itsmeechiara/" target="_blank" aria-label="Facebook">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M14 8.5V6.8c0-.8.3-1.2 1.3-1.2h1.9V2.2C16.8 2.1 15.6 2 14.5 2 12 2 10.3 3.5 10.3 6.3v2.2H7.5V12h2.8v9.8H14V12h3l.5-3.5H14z" />
-            </svg>
-          </a>
-
-          <!-- Snapchat -->
-          <a href="https://snapchat.com/add/itsmee.chiara" target="_blank" aria-label="Snapchat">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M12 2.4c3 0 5.1 2.2 5.1 5.3v2.2c0 .4.2.6.6.8.5.2 1 .4 1.4.5.6.2.7.9.2 1.3-.6.5-1.4.8-2.2 1 .4.9 1.1 1.6 2.1 2 .4.2.4.8 0 1-.8.4-1.7.5-2.6.6-.4 0-.6.2-.8.5-.5.8-1.4 1.4-2.5 1.4-.6 0-.9-.2-1.3-.2s-.7.2-1.3.2c-1.1 0-2-.6-2.5-1.4-.2-.3-.4-.5-.8-.5-.9-.1-1.8-.2-2.6-.6-.4-.2-.4-.8 0-1 1-.4 1.7-1.1 2.1-2-.8-.2-1.6-.5-2.2-1-.5-.4-.4-1.1.2-1.3.4-.1.9-.3 1.4-.5.4-.2.6-.4.6-.8V7.7C6.9 4.6 9 2.4 12 2.4z" />
-            </svg>
-          </a>
-
-          <!-- X -->
-          <a href="https://x.com/chiarabadgirl" target="_blank" aria-label="X">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path
-                d="M14.4 10.6 21.5 2h-1.7l-6.2 7.4L8.7 2H3l7.5 11.1L3 22h1.7l6.6-7.9 5.3 7.9H22l-7.6-11.4zM12 12.9l-.8-1.1L5.2 3.3h2.7l4.8 6.9.8 1.1 6.3 9.1h-2.7L12 12.9z" />
-            </svg>
-          </a>
-
-        </div>
-
-        <footer class="footer">
-          <div class="footer-links">
-            <a href="#">Impressum</a>
-            <a href="#">Datenschutz</a>
-            <a href="#">Kontakt</a>
-          </div>
-        </footer>
+  <main id="main">
+    <section class="hero" id="home">
+      <div class="hero-shade"></div>
+      <div class="hero-portrait-wrap" aria-hidden="true">
+        <div class="hero-portrait-glow"></div>
+        <img class="hero-portrait" src="assets/chiara-cutout.png" alt="" />
       </div>
-    </div>
-  </section>
-  <script>
-    function enterSite() {
-      document.getElementById("ageGate").style.display = "none";
-    }
+      <div class="hero-content">
+        <div class="hero-logo-wrap" aria-label="ItsMeeChiara – Official Platform">
+          <img class="hero-logo" src="assets/brand-wordmark.png" alt="ItsMeeChiara – Official Platform" />
+        </div>
+        <h1>Mehr als nur Social Media.</h1>
+        <p class="hero-copy">Meine Welt, meine Updates und alles rund um ItsMeeChiara – an einem Ort.</p>
 
-    function exitSite() {
-      window.location.href = "https://google.com";
-    }
-  </script>
+        <div class="hero-actions">
+          <a class="button button-primary" data-track="app_cta_click" href="https://itsmeechiara-auth-production.up.railway.app/auth/telegram">Zur App <span aria-hidden="true">→</span></a>
+          <a class="button button-ghost" data-track="shop_cta_click" href="#shop">Merch entdecken</a>
+        </div>
+        <p class="microcopy">Persönlicher Zugang · Direkt im Browser · Für iPhone & Android</p>
+
+        <div class="hero-socials" aria-label="Social Media">
+          <a href="https://instagram.com/itsmee.chiara" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4.2"/><circle cx="17.5" cy="6.5" r="1" class="dot"/></svg>
+          </a>
+          <a href="https://t.me/ChiaraBadGirl" target="_blank" rel="noopener noreferrer" aria-label="Telegram">
+            <svg viewBox="0 0 24 24" aria-hidden="true" class="filled"><path d="M21.7 3.7 18.5 19c-.24 1.08-.88 1.34-1.78.84l-4.9-3.62-2.37 2.28c-.26.26-.48.48-.98.48l.35-4.99 9.08-8.2c.4-.35-.09-.55-.61-.2L6.08 12.68l-4.84-1.51c-1.05-.33-1.07-1.05.22-1.56L20.36 2.3c.88-.32 1.65.2 1.34 1.4Z"/></svg>
+          </a>
+          <span class="social-placeholder" aria-label="Facebook – Link folgt" title="Facebook – Link folgt">
+            <svg viewBox="0 0 24 24" aria-hidden="true" class="filled"><path d="M13.7 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.3-1.5 1.6-1.5H17V3.6c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.4-4 4.1v2.3H8V13h2.6v8h3.1Z"/></svg>
+          </span>
+          <span class="social-placeholder" aria-label="Snapchat – Link folgt" title="Snapchat – Link folgt">
+            <svg viewBox="0 0 24 24" aria-hidden="true" class="filled"><path d="M12 2.5c3.2 0 5.1 2.4 5.1 5.4 0 .9-.1 1.6-.2 2.2.4.2 1 .4 1.5.1.6-.3 1.1.7.5 1.1-.5.4-1.2.5-1.8.7-.3.1-.4.3-.3.6.5 1.2 1.6 2 3.1 2.5.5.2.5.9 0 1.1-.6.3-1.2.4-1.8.5-.3.1-.5.2-.6.5-.2.7-.8 1-1.5.9-.9-.1-1.7.5-2.5.9-.9.5-2.1.5-3 0-.8-.5-1.6-1-2.5-.9-.7.1-1.3-.2-1.5-.9-.1-.3-.3-.4-.6-.5-.6-.1-1.2-.2-1.8-.5-.5-.2-.5-.9 0-1.1 1.5-.5 2.6-1.3 3.1-2.5.1-.3 0-.5-.3-.6-.6-.2-1.3-.3-1.8-.7-.6-.4-.1-1.4.5-1.1.5.3 1.1.1 1.5-.1-.1-.6-.2-1.3-.2-2.2C6.9 4.9 8.8 2.5 12 2.5Z"/></svg>
+          </span>
+          <span class="social-placeholder" aria-label="X – Link folgt" title="X – Link folgt">
+            <svg viewBox="0 0 24 24" aria-hidden="true" class="filled"><path d="M18.9 3H22l-6.8 7.8L23.2 21h-6.3l-4.9-6.4L6.4 21H3.2l7.3-8.4L2.8 3h6.4l4.5 5.9L18.9 3Zm-1.1 16h1.7L8.2 4.9H6.4L17.8 19Z"/></svg>
+          </span>
+        </div>
+      </div>
+
+      <div class="scroll-cue" aria-hidden="true"><span></span></div>
+    </section>
+
+    <section class="section app-section" aria-labelledby="app-title">
+      <div class="section-copy">
+        <p class="eyebrow">ONE PLACE</p>
+        <h2 id="app-title">Dein direkter Draht zu ItsMeeChiara.</h2>
+        <p>Updates, persönliche Features und dein eigener Bereich – gebündelt in einer einzigen App.</p>
+        <a class="text-link" data-track="app_cta_click" href="https://itsmeechiara-auth-production.up.railway.app/auth/telegram">App öffnen <span aria-hidden="true">→</span></a>
+      </div>
+
+      <div class="phone-shell" aria-label="Vorschau der ItsMeeChiara App">
+        <div class="phone-topbar">
+          <img src="assets/brand-icon.png" alt="" />
+          <span>Home ✦</span>
+          <span class="status-dot"></span>
+        </div>
+        <div class="preview-greeting">
+          <small>Willkommen</small>
+          <strong>Dein Bereich</strong>
+          <span>MEMBER</span>
+        </div>
+        <div class="preview-stats">
+          <div><small>Coins</small><strong>—</strong></div>
+          <div><small>Level</small><strong>01</strong></div>
+          <div><small>Updates</small><strong>Neu</strong></div>
+        </div>
+        <div class="preview-grid">
+          <div><b>Updates</b><span>Bleib auf dem Laufenden</span></div>
+          <div><b>Termine</b><span>Alles im Blick</span></div>
+          <div><b>Rewards</b><span>Extras entdecken</span></div>
+          <div><b>Support</b><span>Direkter Kontakt</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section shop-section" id="shop" aria-labelledby="shop-title">
+      <div class="shop-heading">
+        <div>
+          <p class="eyebrow">ITSMEECHIARA MERCH</p>
+          <h2 id="shop-title">Wear the brand.</h2>
+        </div>
+        <p>Der öffentliche Merchandise-Bereich ist vorbereitet. Produkte und Preise werden erst veröffentlicht, sobald dein erster Drop feststeht.</p>
+      </div>
+
+      <div class="product-grid">
+        <article class="product-card">
+          <div class="product-visual product-visual-one"><span>IMC</span></div>
+          <div class="product-info"><small>COMING SOON</small><h3>Clothing</h3><p>Signature Pieces & Drops</p></div>
+        </article>
+        <article class="product-card">
+          <div class="product-visual product-visual-two"><span>∞</span></div>
+          <div class="product-info"><small>COMING SOON</small><h3>Accessories</h3><p>Clean brand essentials</p></div>
+        </article>
+        <article class="product-card">
+          <div class="product-visual product-visual-three"><span>✦</span></div>
+          <div class="product-info"><small>LIMITED</small><h3>Special Drops</h3><p>Selected limited releases</p></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="section about-section" id="about" aria-labelledby="about-title">
+      <div class="about-card">
+        <p class="eyebrow">ITSMEECHIARA</p>
+        <h2 id="about-title">Private brand. Direct connection.</h2>
+        <p>ItsMeeChiara verbindet meine öffentlichen Updates, meine Community, Merchandise und persönliche App-Features an einem zentralen Ort.</p>
+        <div class="about-points">
+          <span><b>Direct</b> Bleib direkt verbunden.</span>
+          <span><b>Personal</b> Dein eigener Bereich.</span>
+          <span><b>One place</b> Alles gebündelt.</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="final-cta" aria-labelledby="final-title">
+      <img src="assets/brand-icon.png" alt="" />
+      <p class="eyebrow">READY?</p>
+      <h2 id="final-title">Deine App ist nur einen Tap entfernt.</h2>
+      <a class="button button-primary" data-track="app_cta_click" href="https://itsmeechiara-auth-production.up.railway.app/auth/telegram">Zur App <span aria-hidden="true">→</span></a>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-brand"><span>ItsMeeChiara</span><small>© 2026</small></div>
+    <div class="footer-links">
+      <a href="impressum.html">Impressum</a>
+      <a href="datenschutz.html">Datenschutz</a>
+      <a href="agb.html">AGB</a>
+    </div>
+  </footer>
 </body>
-
 </html>
