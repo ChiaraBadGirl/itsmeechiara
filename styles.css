@@ -28,6 +28,7 @@ body {
 img { max-width: 100%; display: block; }
 a { color: inherit; }
 button, a { -webkit-tap-highlight-color: transparent; }
+a:focus-visible, button:focus-visible { outline:2px solid var(--pink-soft); outline-offset:4px; }
 
 .skip-link {
   position: fixed; left: 16px; top: -60px; z-index: 9999;
@@ -139,6 +140,7 @@ h1 { font-family:Georgia,"Times New Roman",serif; font-size:clamp(42px,5vw,72px)
 .shop-section { border-top:1px solid var(--line); }
 .shop-heading { display:grid; grid-template-columns:1fr 1fr; gap:50px; align-items:end; margin-bottom:40px; }
 .shop-heading > p { margin:0; }
+.shop-button { margin-top:30px; }
 .product-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
 .product-card { overflow:hidden; border-radius:var(--radius-md); border:1px solid var(--line); background:var(--surface); }
 .product-visual { aspect-ratio:1/.96; display:grid; place-items:center; position:relative; overflow:hidden; background:#141116; }
@@ -168,7 +170,7 @@ h1 { font-family:Georgia,"Times New Roman",serif; font-size:clamp(42px,5vw,72px)
 .footer-brand { display:flex; align-items:center; gap:10px; }
 .footer-brand span { color:var(--text); font-weight:700; }
 .footer-brand small { font-size:10px; }
-.footer-links { display:flex; gap:18px; }
+.footer-links { display:flex; justify-content:flex-end; gap:18px; flex-wrap:wrap; }
 .footer-links a { color:var(--muted); text-decoration:none; font-size:11px; }
 
 @media (max-width: 900px) {
@@ -238,10 +240,42 @@ h1 { font-family:Georgia,"Times New Roman",serif; font-size:clamp(42px,5vw,72px)
     align-items:center;
     justify-content:flex-end;
     gap:11px;
-    flex-wrap:nowrap;
-    white-space:nowrap;
+    flex-wrap:wrap;
   }
   .footer-links a { font-size:9px; }
+}
+
+/* Legal pages reuse the landing page's visual language without introducing a second design system. */
+.legal-page { min-width:320px; }
+.legal-header {
+  position:sticky; top:0; z-index:10;
+  min-height:76px; padding:14px clamp(18px,4vw,52px);
+  display:flex; align-items:center; justify-content:space-between; gap:20px;
+  border-bottom:1px solid var(--line); background:rgba(9,7,10,.9); backdrop-filter:blur(18px);
+}
+.legal-header img { width:48px; height:48px; object-fit:contain; }
+.legal-back { color:var(--pink-soft); font-size:13px; font-weight:700; text-decoration:none; }
+.legal-main { width:min(780px, calc(100% - 40px)); margin:0 auto; padding:82px 0 100px; }
+.legal-main h1 { font-size:clamp(42px,7vw,64px); line-height:1.02; }
+.legal-version { margin:16px 0 46px; color:var(--muted); line-height:1.7; }
+.legal-section { padding:28px 0; border-top:1px solid var(--line); }
+.legal-section h2 { font-family:Georgia,"Times New Roman",serif; font-size:clamp(23px,3vw,30px); line-height:1.2; font-weight:500; letter-spacing:-.025em; }
+.legal-section p { margin:14px 0 0; color:#cfc3cc; font-size:15px; line-height:1.82; overflow-wrap:anywhere; }
+.legal-section a { color:var(--pink-soft); }
+.legal-nav { width:min(780px, calc(100% - 40px)); margin:0 auto; padding:26px 0 max(32px, env(safe-area-inset-bottom)); display:flex; flex-wrap:wrap; gap:12px 20px; border-top:1px solid var(--line); }
+.legal-nav a { color:var(--muted); font-size:12px; text-decoration:none; }
+.legal-nav a[aria-current="page"] { color:var(--text); }
+
+@media (max-width:680px) {
+  .legal-header { min-height:68px; padding:10px 16px; }
+  .legal-header img { width:44px; height:44px; }
+  .legal-main { width:calc(100% - 32px); padding:58px 0 74px; }
+  .legal-main h1 { font-size:36px; overflow-wrap:anywhere; }
+  .legal-version { margin-bottom:34px; }
+  .legal-section { padding:24px 0; }
+  .legal-section h2 { overflow-wrap:anywhere; }
+  .legal-section p { font-size:14px; line-height:1.75; }
+  .legal-nav { width:calc(100% - 32px); }
 }
 
 @media (prefers-reduced-motion: reduce) {
